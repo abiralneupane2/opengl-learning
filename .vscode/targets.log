@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul  7 09:57:34 2022
+# Make data base, printed on Mon Jul 11 10:06:38 2022
 
 # Variables
 
@@ -25,7 +25,7 @@ SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-3ed72a5c-d4ea-40fe-8c88-872b81f17e87.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-62aa6a4c-06ad-45d8-80a3-87ddd07e2769.sock
 # environment
 VSCODE_CWD = /home/abiralneupane
 # environment
@@ -95,13 +95,13 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 3692
+VSCODE_PID = 40811
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/pop-os:@/tmp/.ICE-unix/2646,unix/pop-os:/tmp/.ICE-unix/2646
+SESSION_MANAGER = local/pop-os:@/tmp/.ICE-unix/2727,unix/pop-os:/tmp/.ICE-unix/2727
 # automatic
 *F = $(notdir $*)
 # environment
@@ -137,7 +137,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = de23e46969444b1ea6446ccb0a3f4146
+INVOCATION_ID = 91dd8f37d1b547c8a43ec3e10b264268
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -169,7 +169,7 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := build
 # environment
-SYSTEMD_EXEC_PID = 2669
+SYSTEMD_EXEC_PID = 2750
 # environment
 DISPLAY = :1
 # environment
@@ -179,9 +179,9 @@ GTK_MODULES = gail:atk-bridge:appmenu-gtk-module
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 2428
+MANAGERPID = 2510
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3692
+GIO_LAUNCHED_DESKTOP_FILE_PID = 40811
 # environment
 _ = /usr/share/code/code
 # environment
@@ -189,7 +189,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-JOURNAL_STREAM = 8:44269
+JOURNAL_STREAM = 8:45145
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -227,9 +227,9 @@ GDMSESSION = pop
 
 # Directories
 
-# . (device 66306, inode 267263): 6 files, no impossibilities.
+# . (device 66307, inode 267263): 7 files, no impossibilities.
 
-# 6 files, no impossibilities in 1 directories.
+# 7 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -282,6 +282,9 @@ build:
 makefile:
 #  Implicit rule search has been done.
 #  Last modified 2022-07-06 11:34:22.754788575
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 #  File has been updated.
 #  Successfully updated.
 
@@ -293,15 +296,12 @@ makefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 15 / storage = 110 B / avg = 7 B
- 
-make: *** No rule to make target 'all'.  Stop.
+# strcache buffers: 1 (0) / strings = 16 / storage = 115 B / avg = 7 B
+# current buf: size = 8162 B / used = 115 B / count = 16 / avg = 7 B
 
-# current buf: size = 8162 B / used = 110 B / count = 15 / avg = 7 B
-
-# strcache performance: lookups = 26 / hit rate = 42%
+# strcache performance: lookups = 27 / hit rate = 40%
 # hash-table stats:
-# Load=15/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Thu Jul  7 09:57:34 2022
+# Load=16/8192=0%, Rehash=0, Collisions=0/27=0%
+# Finished Make data base on Mon Jul 11 10:06:38 2022
 
  

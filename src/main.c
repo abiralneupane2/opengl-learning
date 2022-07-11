@@ -8,19 +8,21 @@
 static GtkWidget *gl_area = NULL;
 static GLuint program_vbo;
 static GLuint program;
-pthread_t thread_id;
 static GLuint mvp_location;
 
-static float angle=0.f;
-static vec3 pos={0.f,0.f};
+
+
+vec3 eye={0.f,0.f,1.f};
+vec3 center={0.f,0.f,0.f};
+vec3 up={0.f,1.f,0.f};
 GLint err;
 
 
 
 static const GLfloat vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f,
-    0.0f, 0.5f, 0.0f};
+    -0.5f, -0.5f, -2.0f,
+    0.5f, -0.5f, -2.0f,
+    0.0f, 0.5f, -2.0f};
 
 void delay(int milli_seconds)
 {
@@ -34,18 +36,7 @@ void delay(int milli_seconds)
     while (clock() < start_time + milli_seconds);
 }
 
-void *rotate(){
-    printf("here");
-    delay(2000);
-    while(1){
-        delay(1000);
-        if(angle==360.f)
-        angle = 0.f;
-        angle+=0.05f;
 
-        gtk_widget_queue_draw (gl_area);
-    }
-}
 
 static const char *vertex_shader =
 "#version 330\n"
@@ -70,22 +61,25 @@ render(GtkGLArea *area,
 {
     if (gtk_gl_area_get_error(area) != NULL)
         return FALSE;
-    mat4 m={0};
-    vec3 v = {0.f, 0.f, 1.f};
+    mat4 mp={0};
+    mat4 ml={0};
     
-    glm_rotate_make(m, angle, v);
 
+    
+    mat4 m;
+    
+    
+    glm_perspective(GLM_PI/2,4/3, 1.f, 100.f, mp);
+    glm_lookat(eye, center, up, ml );
 
-    // for(int i=0;i<sizeof(mvp);i++){
-    //     printf("%f\n", mvp[i]);
-    // }
+    glm_mat4_mul(mp,ml,m);
+
 
     /* Clear the viewport */
     delay(500);
     glClearColor(0.f, 0.f, 0.f, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(program);
-
     glUniformMatrix4fv (mvp_location, 1, GL_FALSE, &m[0][0]);
     glBindBuffer(GL_ARRAY_BUFFER, program_vbo);
     
@@ -120,6 +114,9 @@ void realize(GtkWidget *widget)
     gtk_gl_area_make_current(GTK_GL_AREA(widget));
     if (gtk_gl_area_get_error (GTK_GL_AREA (widget)) != NULL)
         return;
+
+    
+
     GLuint vbo, vao;
     GLuint mvp = 0;
     int status;
@@ -175,19 +172,36 @@ out:
     glDeleteShader(f_shader);
 
     
-    pthread_create(&thread_id, NULL, rotate, NULL);
 
     
 }
 
+gboolean m_key_pressed (
+  GtkEventControllerKey* self,
+  guint keyval,
+  guint keycode,
+  GdkModifierType state,
+  gpointer user_data
+){
+    gtk_widget_queue_draw(gl_area);
+}
+
+void get_user_details(GtkWidget *window){
+    delay(5000);
+}
+
 void activate(GtkApplication *app)
 {
-    GtkWidget *window, *box, *button;
+    GtkWidget *window, *box, *button, *assistant;
+    assistant = gtk_assistant_new ();
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "OpenGL Area");
     gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
-
+    gtk_window_set_display (GTK_WINDOW (assistant),
+                              gtk_widget_get_display (window));
+    get_user_details(window);
+    gtk_window_destroy (GTK_WINDOW (assistant));
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, FALSE);
     gtk_widget_set_margin_start(box, 0);
     gtk_widget_set_margin_end(box, 0);
@@ -195,7 +209,7 @@ void activate(GtkApplication *app)
     gtk_widget_set_margin_bottom(box, 0);
     gtk_box_set_spacing(GTK_BOX(box), 0);
     gtk_window_set_child(GTK_WINDOW(window), box);
-
+    
     gl_area = gtk_gl_area_new();
     gtk_widget_set_hexpand(gl_area, TRUE);
     gtk_widget_set_vexpand(gl_area, TRUE);
@@ -210,7 +224,13 @@ void activate(GtkApplication *app)
 
     /* The main "draw" call for GtkGLArea */
     g_signal_connect(gl_area, "render", G_CALLBACK(render), NULL);
+    GtkEventController *camera_controller=gtk_event_controller_key_new();
+    
+    g_signal_connect(camera_controller, "key_pressed", G_CALLBACK(m_key_pressed), NULL);
+    gtk_widget_add_controller(gl_area, camera_controller);
+    gtk_event_controller_set_propagation_phase(camera_controller, GTK_PHASE_CAPTURE);
 
+    
     button = gtk_button_new_with_label ("Quit");
     gtk_widget_set_hexpand (button, TRUE);
     gtk_box_append (GTK_BOX (box), button);
